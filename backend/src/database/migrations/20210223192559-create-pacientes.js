@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('pacientes', {
+    await queryInterface.createTable('patients', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -9,7 +9,7 @@ module.exports = {
       },
       leito_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'leitos', key: 'id' },
+        references: { model: 'hospital_beds', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
         allowNull: true,
@@ -31,10 +31,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      entrada: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
       saida: {
         type: Sequelize.DATE,
       },
@@ -50,6 +46,6 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable('pacientes');
+    await queryInterface.dropTable('patients');
   },
 };
