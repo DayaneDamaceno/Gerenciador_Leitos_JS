@@ -2,20 +2,10 @@
 
 import { Router } from 'express';
 
-import Hospital from './app/models/Hospital';
+import HospitalController from './app/controllers/HospitalController';
 
 const routes = new Router();
 
-routes.get('/', async (req, res) => {
-  const hospital = await Hospital.create({
-    name: 'UPA Alvares',
-    cnpj: '82.466.215/0001-67',
-    password_hash: '1213123sa',
-    qtd_uti: 3,
-    qtd_enfermaria: 5,
-  });
-
-  return res.json(hospital);
-});
+routes.post('/hospitals', HospitalController.store);
 
 export default routes;
