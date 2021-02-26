@@ -12,6 +12,7 @@ class HospitalController {
 
      * [x] Criar leitos automaticamente
      */
+
     const validateCnpj = cnpjValid.isValid(req.body.cnpj);
 
     if (!validateCnpj) return res.json({ error: 'CNPJ is not valid' });
