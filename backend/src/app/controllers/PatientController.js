@@ -80,6 +80,21 @@ class PatientController {
       leito,
     });
   }
+
+  async update(req, res) {
+    const { id } = req.params;
+    const { name, data_nascimento, estado } = req.body;
+
+    const patient = await Patient.findOne({ where: { id } });
+
+    if (!patient) {
+      return res.status(401).json({ error: 'Patient not found' });
+    }
+
+    await patient.update({ name, data_nascimento, estado });
+
+    return res.json({ message: 'Patient updated successfully' });
+  }
 }
 
 export default new PatientController();
