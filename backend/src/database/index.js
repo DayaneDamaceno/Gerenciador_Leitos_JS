@@ -2,10 +2,11 @@ import Sequelize from 'sequelize';
 
 import Hospital from '../app/models/Hospital';
 import HospitalBed from '../app/models/HospitalBed';
+import Patient from '../app/models/Patient';
 
 import databaseConfig from '../config/database';
 
-const models = [Hospital, HospitalBed];
+const models = [Hospital, HospitalBed, Patient];
 
 class Database {
   constructor() {
