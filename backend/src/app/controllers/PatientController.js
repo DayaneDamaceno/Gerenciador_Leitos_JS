@@ -1,4 +1,5 @@
 import * as cpfValid from '@fnando/cpf';
+import { format } from 'date-fns';
 
 import Patient from '../models/Patient';
 import HospitalBed from '../models/HospitalBed';
@@ -42,7 +43,42 @@ class PatientController {
   async index(req, res) {
     const { cpf } = req.query;
 
-    return res.json({ cpf });
+    const validateCpf = cpfValid.isValid(cpf);
+
+    if (!validateCpf) {
+      return res.status(401).json({ error: 'CPF is not valid' });
+    }
+
+    const patient = await Patient.findOne({
+      where: { cpf },
+      include: [
+        {
+          model: HospitalBed,
+          as: 'leito',
+          attributes: ['type'],
+        },
+      ],
+    });
+
+    if (!patient) {
+      return res.status(401).json({ error: 'Patient not found!' });
+    }
+
+    const { name, data_nascimento, estado, createdAt, saida, leito } = patient;
+
+    const data_nascimento_format = format(data_nascimento, 'dd/MM/yyyy');
+    const created_at_format = format(createdAt, 'dd/MM/yyyy HH:mm');
+    const saida_format = saida ? format(saida, 'dd/MM/yyyy HH:mm') : null;
+
+    return res.json({
+      name,
+      cpf,
+      data_nascimento_format,
+      estado,
+      entrada: created_at_format,
+      saida: saida_format,
+      leito,
+    });
   }
 }
 
