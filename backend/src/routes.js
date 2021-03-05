@@ -16,6 +16,7 @@ routes.post('/sessions', SessionController.store);
 routes.post('/patients', PatientController.store);
 routes.get('/patients', PatientController.index);
 routes.put('/patients/:id', PatientController.update);
+routes.delete('/patients/:id', PatientController.delete);
 
 routes.use(authMiddleware);
 

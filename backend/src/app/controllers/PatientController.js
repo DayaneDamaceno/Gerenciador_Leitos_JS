@@ -73,7 +73,7 @@ class PatientController {
     return res.json({
       name,
       cpf,
-      data_nascimento_format,
+      data_nascimento: data_nascimento_format,
       estado,
       entrada: created_at_format,
       saida: saida_format,
@@ -94,6 +94,26 @@ class PatientController {
     await patient.update({ name, data_nascimento, estado });
 
     return res.json({ message: 'Patient updated successfully' });
+  }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    const patient = await Patient.findOne({ where: { id } });
+
+    if (!patient) {
+      return res.status(401).json({ error: 'Patient not found' });
+    }
+
+    const { leito_id } = patient;
+
+    const data_saida = Date.now();
+
+    await patient.update({ estado: 'Alta', saida: data_saida });
+
+    await HospitalBed.update({ status: 'vago' }, { where: { id: leito_id } });
+
+    return res.json({ message: 'Patient was discharged successfully' });
   }
 }
 
