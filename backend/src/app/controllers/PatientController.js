@@ -6,6 +6,7 @@ import HospitalBed from '../models/HospitalBed';
 
 class PatientController {
   async store(req, res) {
+    const hospital_id = req.hospitalId.id;
     const { cpf, leito_id } = req.body;
 
     const validateCpf = cpfValid.isValid(cpf);
@@ -28,7 +29,12 @@ class PatientController {
       return res.status(401).json({ error: 'Hospital Bed not available!' });
     }
 
-    const paciente = await Patient.create(req.body);
+    const dataPatient = {
+      hospital_id,
+      ...req.body,
+    };
+
+    const paciente = await Patient.create(dataPatient);
 
     if (paciente) {
       await HospitalBed.update(

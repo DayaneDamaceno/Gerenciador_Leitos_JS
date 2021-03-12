@@ -20,6 +20,10 @@ class Patient extends Model {
       foreignKey: 'leito_id',
       as: 'leito',
     });
+    this.belongsTo(models.Hospital, {
+      foreignKey: 'hospital_id',
+      as: 'hospital',
+    });
   }
 }
 

@@ -13,17 +13,13 @@ const routes = new Router();
 routes.post('/hospitals', HospitalController.store);
 routes.post('/sessions', SessionController.store);
 
+routes.use(authMiddleware);
+
+routes.get('/hospitals', HospitalController.index);
+
 routes.post('/patients', PatientController.store);
 routes.get('/patients', PatientController.index);
 routes.put('/patients/:id', PatientController.update);
 routes.delete('/patients/:id', PatientController.delete);
-
-routes.use(authMiddleware);
-
-routes.get('/hospitals', (req, res) =>
-  res.json({
-    message: 'ENTROU',
-  })
-);
 
 export default routes;

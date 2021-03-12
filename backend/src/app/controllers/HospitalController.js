@@ -2,6 +2,7 @@
 import * as cnpjValid from '@fnando/cnpj';
 import Hospital from '../models/Hospital';
 import HospitalBed from '../models/HospitalBed';
+import Patient from '../models/Patient';
 
 class HospitalController {
   async store(req, res) {
@@ -48,6 +49,16 @@ class HospitalController {
       qtd_enfermaria,
       leito,
     });
+  }
+
+  async index(req, res) {
+    const { id } = req.hospitalId;
+
+    const patients = await Patient.findAll({
+      where: { hospital_id: id },
+    });
+
+    return res.json({ patients });
   }
 }
 

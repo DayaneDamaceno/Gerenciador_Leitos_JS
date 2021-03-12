@@ -7,11 +7,18 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
+      hospital_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'hospitals', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: true,
+      },
       leito_id: {
         type: Sequelize.INTEGER,
         references: { model: 'hospital_beds', key: 'id' },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
         allowNull: true,
       },
       name: {
